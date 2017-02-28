@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="updateAppColor">
+        <item name="red">Red</item>
+        <item name="green">Green</item>
+        <item name="blue">Blue</item>
+        <item name="black">Black</item>
+    </string-array>
+    <string-array name="appColor">
+        <item name="red">Red</item>
+        <item name="green">Green</item>
+        <item name="blue">Blue</item>
+        <item name="black">Black</item>
+    </string-array>
+
+</resources>

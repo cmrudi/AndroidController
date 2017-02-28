@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "1099184853601",
+    "firebase_url": "https://damkar-learning.firebaseio.com",
+    "project_id": "damkar-learning",
+    "storage_bucket": "damkar-learning.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1099184853601:android:ef5fa6c429664e59",
+        "android_client_info": {
+          "package_name": "com.example.damkarlearning"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1099184853601-5lt9qvgc1sa10gp9mq6ikciek2gte24s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdbysGo5NyB7yUIREr1_9IM1z5LGyp8N4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
