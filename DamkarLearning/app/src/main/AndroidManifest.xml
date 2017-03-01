@@ -131,6 +131,19 @@
             </intent-filter>
         </activity>
 
+        <service
+            android:name=".FirebaseIDService"
+            android:enabled="true"
+            android:exported="true" />
+        <service
+            android:name=".MyFirebaseMessagingService"
+            android:enabled="true"
+            android:exported="true" />
+        <service
+            android:name=".MyService"
+            android:enabled="true"
+            android:exported="true" />
+
     </application>
 
 </manifest>
