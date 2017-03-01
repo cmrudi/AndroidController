@@ -19,6 +19,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.damkarlearning.GlobalVariableSingleton;
 import com.example.damkarlearning.MenuActivity;
 import com.example.damkarlearning.R;
 import com.example.damkarlearning.SensorControllerActivity;
@@ -49,7 +50,9 @@ public class Tab2Friends extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.tab2friends, container, false);
-
+        final GlobalVariableSingleton globalVar = GlobalVariableSingleton.getInstance();
+        String userId;
+        final String userEmail = globalVar.userEmail;
         try {
             final RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
             String url = "https://damkar-learning.herokuapp.com/user";
@@ -73,6 +76,10 @@ public class Tab2Friends extends Fragment implements View.OnClickListener {
                             username = c.getString("username");
                             password = c.getString("password");
                             city = c.getString("city");
+
+                            if (email == userEmail) {
+                                globalVar.userId =id;
+                            }
 
                             String x = "";
                             x += name + "\n";

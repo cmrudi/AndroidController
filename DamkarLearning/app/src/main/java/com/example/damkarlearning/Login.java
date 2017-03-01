@@ -107,6 +107,9 @@ public class Login extends BaseActivity implements View.OnClickListener {
 
         showProgressDialog();
 
+        GlobalVariableSingleton globalVar = GlobalVariableSingleton.getInstance();
+        globalVar.userEmail = email;
+
         final Intent myIntent = new Intent(this, MenuActivity.class);
 
         mAuth.signInWithEmailAndPassword(email, password)
@@ -123,6 +126,7 @@ public class Login extends BaseActivity implements View.OnClickListener {
                             Toast.makeText(Login.this, R.string.auth_failed,
                                     Toast.LENGTH_SHORT).show();
                         } else {
+
                             startActivity(myIntent);
                         }
 

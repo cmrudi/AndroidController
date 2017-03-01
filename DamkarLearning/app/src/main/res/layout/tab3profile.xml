@@ -23,12 +23,11 @@
         android:layout_alignParentStart="true" />
 
     <TextView
-        android:text="Cut Meurah Rudi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="26dp"
         android:layout_marginStart="26dp"
-        android:id="@+id/textView4"
+        android:id="@+id/fullName"
         android:layout_alignBottom="@+id/imageView2"
         android:layout_toRightOf="@+id/imageView2"
         android:layout_marginBottom="15dp" />
@@ -41,54 +40,54 @@
         android:layout_alignLeft="@+id/imageView2"
         android:layout_alignStart="@+id/imageView2"
         android:layout_marginTop="30dp"
-        android:id="@+id/textView5" />
+        android:id="@+id/username" />
 
     <TextView
         android:text="email@google.com"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView5"
-        android:layout_alignLeft="@+id/textView5"
-        android:layout_alignStart="@+id/textView5"
+        android:layout_below="@+id/username"
+        android:layout_alignLeft="@+id/username"
+        android:layout_alignStart="@+id/username"
         android:layout_marginTop="14dp"
-        android:id="@+id/textView6" />
+        android:id="@+id/useremail" />
 
     <TextView
         android:text="Level 0"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView6"
-        android:layout_alignLeft="@+id/textView6"
-        android:layout_alignStart="@+id/textView6"
+        android:layout_below="@+id/useremail"
+        android:layout_alignLeft="@+id/useremail"
+        android:layout_alignStart="@+id/useremail"
         android:layout_marginTop="53dp"
-        android:id="@+id/textView7" />
+        android:id="@+id/userLevel" />
 
     <TextView
         android:text="Experience 0"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_alignLeft="@+id/textView7"
-        android:layout_alignStart="@+id/textView7"
-        android:id="@+id/textView8" />
+        android:layout_alignLeft="@+id/userLevel"
+        android:layout_alignStart="@+id/userLevel"
+        android:id="@+id/userExp" />
 
     <TextView
         android:text="Bandung, Indonesa"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="87dp"
-        android:id="@+id/textView9"
+        android:id="@+id/userCity"
         android:layout_alignParentBottom="true"
-        android:layout_alignRight="@+id/textView6"
-        android:layout_alignEnd="@+id/textView6" />
+        android:layout_alignRight="@+id/userExp"
+        android:layout_alignEnd="@+id/userExp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:id="@+id/locationText"
-        android:layout_alignTop="@+id/textView9"
-        android:layout_alignLeft="@+id/textView8"
-        android:layout_alignStart="@+id/textView8" />
+        android:layout_alignTop="@+id/userCity"
+        android:layout_alignLeft="@+id/userExp"
+        android:layout_alignStart="@+id/userExp" />
 
 </RelativeLayout>
