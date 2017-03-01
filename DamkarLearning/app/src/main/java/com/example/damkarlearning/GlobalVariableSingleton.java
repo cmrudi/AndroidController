@@ -9,6 +9,8 @@ public class GlobalVariableSingleton {
 
     public String userId;
     public String userEmail;
+    public String locationX;
+    public String locationY;
 
     protected GlobalVariableSingleton(){}
 

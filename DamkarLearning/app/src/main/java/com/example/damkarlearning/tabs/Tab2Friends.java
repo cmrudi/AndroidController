@@ -13,21 +13,28 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.damkarlearning.GlobalVariableSingleton;
 import com.example.damkarlearning.MenuActivity;
 import com.example.damkarlearning.R;
+import com.example.damkarlearning.Register;
 import com.example.damkarlearning.SensorControllerActivity;
 import com.example.damkarlearning.UsersLocationActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
 
 public class Tab2Friends extends Fragment implements View.OnClickListener {
     private static final String TAG = "Tab2Friend";
@@ -43,6 +50,7 @@ public class Tab2Friends extends Fragment implements View.OnClickListener {
     String username;
     String password;
     String city;
+    String userId = "0";
 
     Button lButton;
 
@@ -50,9 +58,8 @@ public class Tab2Friends extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.tab2friends, container, false);
-        final GlobalVariableSingleton globalVar = GlobalVariableSingleton.getInstance();
-        String userId;
-        final String userEmail = globalVar.userEmail;
+
+        LinearLayout layout = (LinearLayout) getActivity().findViewById(R.id.asd);
         try {
             final RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
             String url = "https://damkar-learning.herokuapp.com/user";
@@ -68,6 +75,7 @@ public class Tab2Friends extends Fragment implements View.OnClickListener {
                         Log.d("Test", response);
                         JSONArray obj = new JSONArray(response);
 
+                        GlobalVariableSingleton globalVar = GlobalVariableSingleton.getInstance();
                         for (int i = 0; i < obj.length(); i++) {
                             JSONObject c = obj.getJSONObject(i);
                             id = c.getString("_id");
@@ -77,10 +85,9 @@ public class Tab2Friends extends Fragment implements View.OnClickListener {
                             password = c.getString("password");
                             city = c.getString("city");
 
-                            if (email == userEmail) {
-                                globalVar.userId =id;
+                            if (email.equals(globalVar.userEmail) ) {
+                                globalVar.userId = id;
                             }
-
                             String x = "";
                             x += name + "\n";
                             x += username + "\n";
@@ -88,6 +95,8 @@ public class Tab2Friends extends Fragment implements View.OnClickListener {
                             Button btnTag = new Button(getActivity());
                             layout.addView(btnTag);
                             btnTag.setText(x);
+
+
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -100,9 +109,59 @@ public class Tab2Friends extends Fragment implements View.OnClickListener {
                 }
             });
             requestQueue.add(stringRequest);
+
+            GlobalVariableSingleton globalVar = GlobalVariableSingleton.getInstance();
+            JSONObject jsonBody = new JSONObject();
+            jsonBody.put("userId", globalVar.userId);
+            jsonBody.put("latitude", globalVar.locationX);
+            jsonBody.put("longitude", globalVar.locationY);
+            final String mRequestBody = jsonBody.toString();
+
+            url = "https://damkar-learning.herokuapp.com/location";
+
+            stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    Log.i("LOG_VOLLEY", response);
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.e("LOG_VOLLEY", error.toString());
+                }
+            }) {
+                @Override
+                public String getBodyContentType() {
+                    return "application/json; charset=utf-8";
+                }
+
+                @Override
+                public byte[] getBody() throws AuthFailureError {
+                    try {
+                        return mRequestBody == null ? null : mRequestBody.getBytes("utf-8");
+                    } catch (UnsupportedEncodingException uee) {
+                        VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", mRequestBody, "utf-8");
+                        return null;
+                    }
+                }
+
+                @Override
+                protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                    String responseString = "";
+                    if (response != null) {
+
+                        responseString = String.valueOf(response.statusCode);
+
+                    }
+                    return Response.success(responseString, HttpHeaderParser.parseCacheHeaders(response));
+                }
+            };
+
+            requestQueue.add(stringRequest);
         } catch (Exception e) {
             e.printStackTrace();
         }
+
 
         lButton = (Button) view.findViewById(R.id.locButton);
         lButton.setOnClickListener(this);

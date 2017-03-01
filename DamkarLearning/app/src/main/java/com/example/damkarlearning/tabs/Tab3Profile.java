@@ -45,7 +45,6 @@ public class Tab3Profile extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.tab3profile, container, false);
-        GlobalVariableSingleton globalVar = GlobalVariableSingleton.getInstance();
         fullName = (TextView) view.findViewById(R.id.fullName);
         username = (TextView) view.findViewById(R.id.username);
         useremail = (TextView) view.findViewById(R.id.useremail);
@@ -54,17 +53,20 @@ public class Tab3Profile extends Fragment {
         userCity = (TextView) view.findViewById(R.id.userCity);
         textLocation = (TextView) view.findViewById(R.id.locationText);
 
+
         try {
+            GlobalVariableSingleton globalVar = GlobalVariableSingleton.getInstance();
             final RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
             String url = "https://damkar-learning.herokuapp.com/user/";
             url = url.concat(globalVar.userId);
-            final String test = url;
+
             StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
                     Log.i("LOG_VOLLEY", response);
                     System.out.println(response);
                     //response2 = response;
+
                     try {
 
                         Log.d("Test", response);
@@ -76,7 +78,8 @@ public class Tab3Profile extends Fragment {
                         password = c.getString("password");
                         city = c.getString("city");
 
-                        fullName.setText(test);
+
+                        fullName.setText(name);
                         username.setText(usernameStr);
                         useremail.setText(email);
                         userCity.setText(city);

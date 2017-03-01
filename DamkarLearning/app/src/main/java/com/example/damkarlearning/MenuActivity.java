@@ -192,28 +192,6 @@ public class MenuActivity extends AppCompatActivity
         wakeLock = powerManager.newWakeLock(field, getLocalClassName());
 
 
-
-        try {
-            final RequestQueue requestQueue = Volley.newRequestQueue(MenuActivity.this);
-            String url = "https://damkar-learning.herokuapp.com/user";
-            StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    Log.i("LOG_VOLLEY", response);
-                    System.out.println(response);
-                    //response isinya JSON dalam bentuk string dari data friends
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Log.e("LOG_VOLLEY", error.toString());
-                }
-            });
-
-            requestQueue.add(stringRequest);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
@@ -266,9 +244,14 @@ public class MenuActivity extends AppCompatActivity
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
 
         if (mLastLocation != null) {
-            //FAZA : bagian ini nih yang gw butuh bantuan
-            //tvLatlong.setText("Latitude: "/*+ String.valueOf(mLastLocation.getLatitude())+", Longitude: "+ String.valueOf(mLastLocation.getLongitude())*/);
+            GlobalVariableSingleton globalVar = GlobalVariableSingleton.getInstance();
+            globalVar.locationX = String.valueOf(mLastLocation.getLatitude());
+            globalVar.locationY = String.valueOf(mLastLocation.getLongitude());
         }
+
+
+
+
 
     }
 
