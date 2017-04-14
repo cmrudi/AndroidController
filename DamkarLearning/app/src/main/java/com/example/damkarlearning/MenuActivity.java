@@ -40,10 +40,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.damkarlearning.tabs.Tab1Play;
@@ -54,7 +58,9 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import static com.example.damkarlearning.R.id.locationText;
@@ -253,6 +259,59 @@ public class MenuActivity extends AppCompatActivity
             GlobalVariableSingleton globalVar = GlobalVariableSingleton.getInstance();
             globalVar.locationX = String.valueOf(mLastLocation.getLatitude());
             globalVar.locationY = String.valueOf(mLastLocation.getLongitude());
+
+            try {
+                final RequestQueue requestQueue = Volley.newRequestQueue(MenuActivity.this);
+                if (globalVar.locationFilled()) {
+                    JSONObject jsonBody = new JSONObject();
+                    jsonBody.put("userId", globalVar.userId);
+                    jsonBody.put("latitude", globalVar.locationX);
+                    jsonBody.put("longitude", globalVar.locationY);
+                    final String mRequestBody = jsonBody.toString();
+
+                    String url = "https://damkar-learning.herokuapp.com/location";
+                    StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Log.i("LOG_VOLLEY", response);
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.e("LOG_VOLLEY", error.toString());
+                        }
+                    }) {
+                        @Override
+                        public String getBodyContentType() {
+                            return "application/json; charset=utf-8";
+                        }
+
+                        @Override
+                        public byte[] getBody() throws AuthFailureError {
+                            try {
+                                return mRequestBody == null ? null : mRequestBody.getBytes("utf-8");
+                            } catch (UnsupportedEncodingException uee) {
+                                VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", mRequestBody, "utf-8");
+                                return null;
+                            }
+                        }
+
+                        @Override
+                        protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                            String responseString = "";
+                            if (response != null) {
+
+                                responseString = String.valueOf(response.statusCode);
+
+                            }
+                            return Response.success(responseString, HttpHeaderParser.parseCacheHeaders(response));
+                        }
+                    };
+                    requestQueue.add(stringRequest);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
 
 

@@ -12,12 +12,24 @@ public class GlobalVariableSingleton {
     public String locationX;
     public String locationY;
 
-    protected GlobalVariableSingleton(){}
+    protected GlobalVariableSingleton(){
+        locationX = "0";
+        locationY = "0";
+    }
 
     public static synchronized GlobalVariableSingleton getInstance(){
         if(null == mInstance){
             mInstance = new GlobalVariableSingleton();
         }
         return mInstance;
+    }
+
+    public boolean locationFilled() {
+        if (!locationX.equals("0")&&!locationY.equals("0")) {
+            return false;
+        }
+        else {
+            return  true;
+        }
     }
 }

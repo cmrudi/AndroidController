@@ -55,7 +55,7 @@ public class Tab3Profile extends Fragment {
 
 
         try {
-            GlobalVariableSingleton globalVar = GlobalVariableSingleton.getInstance();
+            final GlobalVariableSingleton globalVar = GlobalVariableSingleton.getInstance();
             final RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
             String url = "https://damkar-learning.herokuapp.com/user/";
             url = url.concat(globalVar.userId);
@@ -85,6 +85,7 @@ public class Tab3Profile extends Fragment {
                         userCity.setText(city);
                         userLevel.setText("Level ".concat("1"));
                         userExp.setText("Experience ".concat("0"));
+                        textLocation.setText(globalVar.locationX.concat(",").concat(globalVar.locationY));
 
                     } catch (JSONException e) {
                         e.printStackTrace();

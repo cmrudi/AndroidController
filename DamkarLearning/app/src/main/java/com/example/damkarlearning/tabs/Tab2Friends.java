@@ -110,54 +110,7 @@ public class Tab2Friends extends Fragment implements View.OnClickListener {
             });
             requestQueue.add(stringRequest);
 
-            GlobalVariableSingleton globalVar = GlobalVariableSingleton.getInstance();
-            JSONObject jsonBody = new JSONObject();
-            jsonBody.put("userId", globalVar.userId);
-            jsonBody.put("latitude", globalVar.locationX);
-            jsonBody.put("longitude", globalVar.locationY);
-            final String mRequestBody = jsonBody.toString();
 
-            url = "https://damkar-learning.herokuapp.com/location";
-
-            stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    Log.i("LOG_VOLLEY", response);
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Log.e("LOG_VOLLEY", error.toString());
-                }
-            }) {
-                @Override
-                public String getBodyContentType() {
-                    return "application/json; charset=utf-8";
-                }
-
-                @Override
-                public byte[] getBody() throws AuthFailureError {
-                    try {
-                        return mRequestBody == null ? null : mRequestBody.getBytes("utf-8");
-                    } catch (UnsupportedEncodingException uee) {
-                        VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", mRequestBody, "utf-8");
-                        return null;
-                    }
-                }
-
-                @Override
-                protected Response<String> parseNetworkResponse(NetworkResponse response) {
-                    String responseString = "";
-                    if (response != null) {
-
-                        responseString = String.valueOf(response.statusCode);
-
-                    }
-                    return Response.success(responseString, HttpHeaderParser.parseCacheHeaders(response));
-                }
-            };
-
-            requestQueue.add(stringRequest);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -179,4 +132,5 @@ public class Tab2Friends extends Fragment implements View.OnClickListener {
             }
         }
     }
+
 }
