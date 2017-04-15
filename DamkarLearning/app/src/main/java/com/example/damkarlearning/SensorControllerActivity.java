@@ -1,6 +1,7 @@
 package com.example.damkarlearning;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.util.Log;
@@ -71,4 +72,28 @@ public class SensorControllerActivity extends Activity {
         }
         */
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        // Store our shared preference
+        SharedPreferences sp = getSharedPreferences("SensorInfo", MODE_PRIVATE);
+        SharedPreferences.Editor ed = sp.edit();
+        ed.putBoolean("active", true);
+        ed.commit();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        // Store our shared preference
+        SharedPreferences sp = getSharedPreferences("SensorInfo", MODE_PRIVATE);
+        SharedPreferences.Editor ed = sp.edit();
+        ed.putBoolean("active", false);
+        ed.commit();
+
+    }
+
 }

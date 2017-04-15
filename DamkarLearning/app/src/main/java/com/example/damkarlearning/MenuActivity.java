@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Color;
+import android.graphics.ColorMatrixColorFilter;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -63,6 +64,7 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
+import static android.content.res.Configuration.ORIENTATION_LANDSCAPE;
 import static com.example.damkarlearning.R.id.locationText;
 
 public class MenuActivity extends AppCompatActivity
@@ -425,6 +427,7 @@ public class MenuActivity extends AppCompatActivity
         //ImageView II = (ImageView) findViewById(R.id.mr_art);
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         String value = sharedPrefs.getString("appColor", "");
+        int screenOrientation = getResources().getConfiguration().orientation;
 
 
 
@@ -455,6 +458,11 @@ public class MenuActivity extends AppCompatActivity
             }
             default: break;
         }
+
+        if (screenOrientation == ORIENTATION_LANDSCAPE) {
+            LL.setBackgroundColor(Color.GRAY);
+        }
+
 
     }
 
