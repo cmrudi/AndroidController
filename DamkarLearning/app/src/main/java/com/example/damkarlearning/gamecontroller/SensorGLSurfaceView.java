@@ -117,7 +117,7 @@ public class SensorGLSurfaceView extends GLSurfaceView implements SensorEventLis
                 // Get a RequestQueue
                 RequestQueue queue = MySingleton.getInstance(newCtx).
                         getRequestQueue();
-
+                System.out.println("AAAAAAAAAAAAAAAAAAA "+damkarOrientation);
                 String url = "https://damkar-learning.herokuapp.com/direction";
                 JSONObject jsonBody = new JSONObject();
                 jsonBody.put("direct", damkarOrientation);

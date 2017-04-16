@@ -427,9 +427,6 @@ public class MenuActivity extends AppCompatActivity
         //ImageView II = (ImageView) findViewById(R.id.mr_art);
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         String value = sharedPrefs.getString("appColor", "");
-        int screenOrientation = getResources().getConfiguration().orientation;
-
-
 
         switch (value) {
             case "Red" :
@@ -458,11 +455,6 @@ public class MenuActivity extends AppCompatActivity
             }
             default: break;
         }
-
-        if (screenOrientation == ORIENTATION_LANDSCAPE) {
-            LL.setBackgroundColor(Color.GRAY);
-        }
-
 
     }
 
