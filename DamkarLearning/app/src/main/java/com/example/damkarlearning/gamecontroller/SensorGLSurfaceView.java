@@ -38,6 +38,7 @@ public class SensorGLSurfaceView extends GLSurfaceView implements SensorEventLis
     private SensorManager sensorManager;
     private Sensor gravity_meter;
     private String damkarOrientation = new String();
+    private String lastDamkarOrientation = new String();
 
     private float deltaX = 0;
     private float deltaY = 0;
@@ -113,63 +114,67 @@ public class SensorGLSurfaceView extends GLSurfaceView implements SensorEventLis
             requestRender();
             damkarOrientation = mRenderer.getOrientation();
 
-            try {
-                // Get a RequestQueue
-                RequestQueue queue = MySingleton.getInstance(newCtx).
-                        getRequestQueue();
-                System.out.println("AAAAAAAAAAAAAAAAAAA "+damkarOrientation);
-                String url = "https://damkar-learning.herokuapp.com/direction";
-                JSONObject jsonBody = new JSONObject();
-                jsonBody.put("direct", damkarOrientation);
-                final String mRequestBody = jsonBody.toString();
+            if (!damkarOrientation.equals(lastDamkarOrientation)) {
 
-                StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Log.i("LOG_VOLLEY", response);
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.e("LOG_VOLLEY", error.toString());
-                    }
-                }) {
-                    @Override
-                    public String getBodyContentType() {
-                        return "application/json; charset=utf-8";
-                    }
+                try {
+                    lastDamkarOrientation = damkarOrientation;
+                    // Get a RequestQueue
+                    RequestQueue queue = MySingleton.getInstance(newCtx).
+                            getRequestQueue();
+                    String url = "https://damkar-learning.herokuapp.com/direction/58b1ab105fbd3c000416ab4c";
+                    JSONObject jsonBody = new JSONObject();
+                    jsonBody.put("direct", damkarOrientation);
+                    final String mRequestBody = jsonBody.toString();
 
-                    @Override
-                    public byte[] getBody() throws AuthFailureError {
-                        try {
-                            return mRequestBody == null ? null : mRequestBody.getBytes("utf-8");
-                        } catch (UnsupportedEncodingException uee) {
-                            VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", mRequestBody, "utf-8");
-                            return null;
+                    StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Log.i("LOG_VOLLEY", response);
                         }
-                    }
-
-                    @Override
-                    protected Response<String> parseNetworkResponse(NetworkResponse response) {
-                        String responseString = "";
-                        if (response != null) {
-
-                            responseString = String.valueOf(response.statusCode);
-
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.e("LOG_VOLLEY", error.toString());
                         }
-                        return Response.success(responseString, HttpHeaderParser.parseCacheHeaders(response));
-                    }
-                };
+                    }) {
+                        @Override
+                        public String getBodyContentType() {
+                            return "application/json; charset=utf-8";
+                        }
 
-                queue.add(stringRequest);
-            } catch (JSONException e) {
-                e.printStackTrace();
+                        @Override
+                        public byte[] getBody() throws AuthFailureError {
+                            try {
+                                return mRequestBody == null ? null : mRequestBody.getBytes("utf-8");
+                            } catch (UnsupportedEncodingException uee) {
+                                VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", mRequestBody, "utf-8");
+                                return null;
+                            }
+                        }
+
+                        @Override
+                        protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                            String responseString = "";
+                            if (response != null) {
+
+                                responseString = String.valueOf(response.statusCode);
+
+                            }
+                            return Response.success(responseString, HttpHeaderParser.parseCacheHeaders(response));
+                        }
+                    };
+
+                    queue.add(stringRequest);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }
         else {
-            System.out.print("ASSDEKDEUBDBEYHFBEUJ");
+            System.out.print("ERROR");
         }
     }
+
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {

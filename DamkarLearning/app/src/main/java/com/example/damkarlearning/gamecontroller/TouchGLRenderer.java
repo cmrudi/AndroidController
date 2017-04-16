@@ -218,5 +218,13 @@ public class TouchGLRenderer implements GLSurfaceView.Renderer  {
             System.out.println(myOrientation);
             mTriangle[3].hover(mMVPMatrix);
         }
+        else if ((x>=(-0.2f)) &&(x<=0.2f) && (y>=-0.2f) &&(y<=0.2f)) {
+            myOrientation = "NETRAL";
+            System.out.println(myOrientation);
+            mTriangle[2].hover(mMVPMatrix);
+        }
+        else {
+            myOrientation = "X";
+        }
     }
 }

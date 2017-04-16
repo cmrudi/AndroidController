@@ -40,6 +40,7 @@ public class TouchGLSurfaceView extends GLSurfaceView {
     private float previousX;
     private float previousY;
     private String damkarOrientation = new String();
+    private String lastDamkarOrientation = new String();
     private Context newCtx;
 
     public TouchGLSurfaceView(Context context) {
@@ -108,7 +109,64 @@ public class TouchGLSurfaceView extends GLSurfaceView {
 
                 mRenderer.setHover(sceneX,sceneY);
                 damkarOrientation = mRenderer.getOrientation();
+                System.out.print("DIRECTION : ");
+                System.out.println(damkarOrientation);
                 requestRender();
+
+                try {
+                    // Get a RequestQueue
+                    RequestQueue queue = MySingleton.getInstance(newCtx).
+                            getRequestQueue();
+                    String url = "https://damkar-learning.herokuapp.com/direction/58b1ab105fbd3c000416ab4c";
+                    JSONObject jsonBody = new JSONObject();
+                    jsonBody.put("direct", damkarOrientation);
+                    final String mRequestBody = jsonBody.toString();
+
+                    StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Log.i("LOG_VOLLEY", response);
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.e("LOG_VOLLEY", error.toString());
+                        }
+                    }) {
+                        @Override
+                        public String getBodyContentType() {
+                            return "application/json; charset=utf-8";
+                        }
+
+                        @Override
+                        public byte[] getBody() throws AuthFailureError {
+                            try {
+                                return mRequestBody == null ? null : mRequestBody.getBytes("utf-8");
+                            } catch (UnsupportedEncodingException uee) {
+                                VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", mRequestBody, "utf-8");
+                                return null;
+                            }
+                        }
+
+                        @Override
+                        protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                            String responseString = "";
+                            if (response != null) {
+
+                                responseString = String.valueOf(response.statusCode);
+
+                            }
+                            return Response.success(responseString, HttpHeaderParser.parseCacheHeaders(response));
+                        }
+                    };
+
+                    queue.add(stringRequest);
+                } catch (JSONException ex) {
+                    ex.printStackTrace();
+                }
+
+
+
                 return true;
 
             case MotionEvent.ACTION_UP:
@@ -116,59 +174,7 @@ public class TouchGLSurfaceView extends GLSurfaceView {
                 return true;
         }
 
-        try {
-            // Get a RequestQueue
-            // Get a RequestQueue
-            RequestQueue queue = MySingleton.getInstance(newCtx).
-                    getRequestQueue();
 
-            String url = "https://damkar-learning.herokuapp.com/direction";
-            JSONObject jsonBody = new JSONObject();
-            jsonBody.put("direct", damkarOrientation);
-            final String mRequestBody = jsonBody.toString();
-
-            StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    Log.i("LOG_VOLLEY", response);
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Log.e("LOG_VOLLEY", error.toString());
-                }
-            }) {
-                @Override
-                public String getBodyContentType() {
-                    return "application/json; charset=utf-8";
-                }
-
-                @Override
-                public byte[] getBody() throws AuthFailureError {
-                    try {
-                        return mRequestBody == null ? null : mRequestBody.getBytes("utf-8");
-                    } catch (UnsupportedEncodingException uee) {
-                        VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", mRequestBody, "utf-8");
-                        return null;
-                    }
-                }
-
-                @Override
-                protected Response<String> parseNetworkResponse(NetworkResponse response) {
-                    String responseString = "";
-                    if (response != null) {
-
-                        responseString = String.valueOf(response.statusCode);
-
-                    }
-                    return Response.success(responseString, HttpHeaderParser.parseCacheHeaders(response));
-                }
-            };
-
-            queue.add(stringRequest);
-        } catch (JSONException es) {
-            es.printStackTrace();
-        }
 
 
         //previousX = x;
