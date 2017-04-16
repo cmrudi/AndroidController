@@ -1,4 +1,7 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -6,7 +9,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.damkarlearning.MenuActivity$PlaceholderFragment">
+    tools:context="com.example.damkarlearning.MenuActivity$PlaceholderFragment"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/section_label"
@@ -15,51 +19,46 @@
 
         />
 
+    <TextView
+        android:text="CHOOSE THE CONTROLER"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView"
+        android:textSize="18sp"
+        android:layout_centerHorizontal="true"
+        android:textAlignment="center"/>
+
     <Button
         android:text="With Sensor"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="50dp"
         android:id="@+id/sensorButton"
-        android:layout_below="@+id/textView"
-        android:layout_alignRight="@+id/touchButton"
-        android:layout_alignEnd="@+id/touchButton" />
+        />
 
     <TextView
         android:text="Feel the experience of controlling Firefighter Car with Sensors"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/sensorButton"
         android:id="@+id/textView2"
         android:textAlignment="center" />
 
     <Button
         android:text="With Button"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="63dp"
         android:id="@+id/touchButton"
-        android:layout_below="@+id/textView2"
-        android:layout_centerHorizontal="true" />
+        android:layout_marginTop="30dp"
+        android:layout_centerHorizontal="true"
+        />
 
     <TextView
         android:text="Hard to control with sensor? Use touch button here!"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView3"
-        android:layout_below="@+id/touchButton"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
-        android:text="Choose The Controller"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="39dp"
-        android:id="@+id/textView"
-        android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textSize="18sp"
-        android:layout_below="@+id/section_label"
         android:layout_centerHorizontal="true" />
 
 
-</RelativeLayout>
+</LinearLayout>
+</ScrollView>
